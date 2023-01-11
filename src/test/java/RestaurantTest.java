@@ -26,14 +26,18 @@ class RestaurantTest {
         assertFalse(status);
     }
 
+    public void addMenuItems(){
+        restaurant.addToMenu("Sweet corn soup",119);
+        restaurant.addToMenu("Vegetable lasagne", 269);
+    }
+
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>MENU<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     @Test
     public void adding_item_to_menu_should_increase_menu_size_by_1(){
         LocalTime openingTime = LocalTime.parse("10:30:00");
         LocalTime closingTime = LocalTime.parse("22:00:00");
         restaurant =new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime);
-        restaurant.addToMenu("Sweet corn soup",119);
-        restaurant.addToMenu("Vegetable lasagne", 269);
+        addMenuItems();
 
         int initialMenuSize = restaurant.getMenu().size();
         restaurant.addToMenu("Sizzling brownie",319);
@@ -44,8 +48,7 @@ class RestaurantTest {
         LocalTime openingTime = LocalTime.parse("10:30:00");
         LocalTime closingTime = LocalTime.parse("22:00:00");
         restaurant =new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime);
-        restaurant.addToMenu("Sweet corn soup",119);
-        restaurant.addToMenu("Vegetable lasagne", 269);
+        addMenuItems();
 
         int initialMenuSize = restaurant.getMenu().size();
         restaurant.removeFromMenu("Vegetable lasagne");
@@ -56,11 +59,30 @@ class RestaurantTest {
         LocalTime openingTime = LocalTime.parse("10:30:00");
         LocalTime closingTime = LocalTime.parse("22:00:00");
         restaurant =new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime);
-        restaurant.addToMenu("Sweet corn soup",119);
-        restaurant.addToMenu("Vegetable lasagne", 269);
+        addMenuItems();
 
         assertThrows(itemNotFoundException.class,
                 ()->restaurant.removeFromMenu("French fries"));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    @Test
+    public void selected_item_in_menu_should_return_value_more_than_0() {
+        addMenuItems();
+        restaurant.addToOrderList("Sweet corn soup");
+        restaurant.addToOrderList("Milk shake");
+        assertTrue(restaurant.getItemPrice("Sweet corn soup") > 0);
+    }
+
+    @Test
+    public void total_value_must_be_greater_than_0_if_number_of_items_added_are_more_than_one() {
+        restaurant.addToOrderList("Sweet corn soup");
+        assertTrue(restaurant.getItemPrice("Sweet corn soup") > 0);
+    }
+
+    @Test
+    public void item_price_must_be_greater_than_0_if_item_found() {
+        restaurant.addToOrderList("Sweet corn soup");
+        assertTrue(restaurant.getItemPrice("Milk shake") > 0);
+    }
 }
