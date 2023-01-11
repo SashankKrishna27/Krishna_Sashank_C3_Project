@@ -5,25 +5,26 @@ import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RestaurantTest {
-    Restaurant restaurant;
-    //REFACTOR ALL THE REPEATED LINES OF CODE
+import java.time.temporal.ChronoUnit;
 
+class RestaurantTest {
+    //REFACTOR ALL THE REPEATED LINES OF CODE
+    Restaurant restaurant = new Restaurant("Amelie's cafe","Chennai", LocalTime.parse("10:30:00"), LocalTime.parse("22:00:00"));
     //>>>>>>>>>>>>>>>>>>>>>>>>>OPEN/CLOSED<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     //-------FOR THE 2 TESTS BELOW, YOU MAY USE THE CONCEPT OF MOCKING, IF YOU RUN INTO ANY TROUBLE
     @Test
     public void is_restaurant_open_should_return_true_if_time_is_between_opening_and_closing_time(){
-        //WRITE UNIT TEST CASE HERE
+        restaurant.openingTime = LocalTime.now();
+        restaurant.closingTime = LocalTime.now().plus(11, ChronoUnit.MINUTES);
+        boolean status = restaurant.isRestaurantOpen();
+        assertTrue(status);
     }
 
     @Test
     public void is_restaurant_open_should_return_false_if_time_is_outside_opening_and_closing_time(){
-        //WRITE UNIT TEST CASE HERE
-
+        boolean status = restaurant.isRestaurantOpen();
+        assertFalse(status);
     }
-
-    //<<<<<<<<<<<<<<<<<<<<<<<<<OPEN/CLOSED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>MENU<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     @Test
