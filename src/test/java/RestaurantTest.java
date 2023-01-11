@@ -85,4 +85,17 @@ class RestaurantTest {
         restaurant.addToOrderList("Sweet corn soup");
         assertTrue(restaurant.getItemPrice("Milk shake") > 0);
     }
+
+    @Test
+    public void total_value_must_be_0_if_number_of_items_are_0() {
+        restaurant.addToOrderList("Sweet corn soup");
+        assertEquals(0, restaurant.getItemPrice("Sweet corn soup"));
+    }
+
+    @Test
+    public void item_price_must_be_0_if_items_not_found() {
+        restaurant.addToOrderList("Sweet corn soup");
+        assertEquals(0, restaurant.getItemPrice("Sweet corn soup"));
+    }
+
 }
